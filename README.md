@@ -6,25 +6,15 @@ Zalecane jest, aby komunikacja przez HTTPS API odbywała się z loginów utworzo
 ## Instalacja
 Instalacja odbywa się poprzez composer:
 ```php
-    composer require betterapp/server-sms
+    composer require betterapp/laravel-server-sms
 ```
 ## Konfiguracja
 
-app/config/app.php:
-
 ```php
-    return [
-	    ...
-	    ...
-	    'providers' => [
-	        ...
-	        ...
-	        \betterapp\LaravelServerSms\ServerSmsServiceProvider::class,
-	    ],
-	    ...
-	    ....
-    ]
+    php artisan vendor:publish
 ```
+
+Uruchom dla betterapp\LaravelServerSms\ServerSmsServiceProvider
 
 app/config/server-sms.php:
 ```php
@@ -46,7 +36,7 @@ Controller.php
 
 	try{
 	
-	    $serverSms = new \SerwerSMS;
+	    $serverSms = new \ServerSms;
 	
 	    // SMS FULL
 	    $result = $serverSms->messages->sendSms(
@@ -125,7 +115,7 @@ Wysyłka spersonalizowanych SMS
 ```php
 	try{
 	
-	    $serverSms = new \SerwerSMS;
+	    $serverSms = new \ServerSms;
 	
 	    $messages[] = array(
 			'phone' => '500600700',
@@ -166,7 +156,7 @@ Pobieranie raportów doręczeń
 ```php
 	try{
 	
-    	    $serverSms = new \SerwerSMS;
+    	    $serverSms = new \ServerSms;
     	
     	    // Get messages reports
     	    $result = $serverSms->messages->reports(array('id' => array('aca3944055')));
@@ -192,7 +182,7 @@ Pobieranie raportów doręczeń
 Pobieranie wiadomości przychodzących
 ```php
 	try{
-    	    $serverSms = new \SerwerSMS;
+    	    $serverSms = new \ServerSms;
     	
     	    // Get recived messages
     	    $result = $serverSms->messages->recived('ndi');
