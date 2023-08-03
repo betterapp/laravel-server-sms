@@ -1,40 +1,35 @@
 <?php
 
-namespace SerwerSMS;
+namespace betterapp\LaravelServerSms\Tests;
 
-class FileTest extends \PHPUnit_Framework_TestCase {
-    
-    protected $serwersms;
-    
-    protected function setUp(){
-        $this->serwersms = new SerwerSMS("demo","demo");
-    }
-
-    public function testAdd() {
-        $params = array(
-            'url' => 'https://panel.serwersms.pl/demo/demo.wav',
-            'name' => 'Demo wav'
-        );
-        $r = $this->serwersms->files->add('voice',$params);
-        $this->assertObjectHasAttribute('success', $r);
+class FilesTest extends AbstractTest
+{
+    public function testAdd()
+    {
+        $params = array('url' => 'https://panel.serwersms.pl/demo/demo.wav', 'name' => 'Demo wav');
+        $r = $this->serverSms->files->add('voice', $params)->getResult();
+        $this->assertObjectHasProperty('success', $r);
         $this->assertTrue($r->success);
     }
     
-    public function testIndex() {
-        $r = $this->serwersms->files->index('mms');
-        $this->assertObjectHasAttribute('items', $r);
+    public function testIndex()
+    {
+        $r = $this->serverSms->files->index('mms')->getResult();
+        $this->assertObjectHasProperty('items', $r);
     }
     
-    public function testView() {
-        $list = $this->serwersms->files->index('mms');
-        $r = $this->serwersms->files->view($list->items[0]->id,'mms');
-        $this->assertObjectHasAttribute('id', $r);
+    public function testView()
+    {
+        $list = $this->serverSms->files->index('mms')->getResult();
+        $r = $this->serverSms->files->view($list->items[0]->id, 'mms')->getResult();
+        $this->assertObjectHasProperty('id', $r);
     }
     
-    public function testDelete(){
-        $list = $this->serwersms->files->index('voice');
-        $r = $this->serwersms->files->delete($list->items[0]->id,'voice');
-        $this->assertObjectHasAttribute('success',$r);
+    public function testDelete()
+    {
+        $list = $this->serverSms->files->index('voice')->getResult();
+        $r = $this->serverSms->files->delete($list->items[0]->id, 'voice')->getResult();
+        $this->assertObjectHasProperty('success', $r);
         $this->assertTrue($r->success);
     }
     

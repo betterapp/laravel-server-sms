@@ -1,17 +1,13 @@
 <?php
 
-namespace SerwerSMS;
+namespace betterapp\LaravelServerSms\Tests;
 
-class StatsTest extends \PHPUnit_Framework_TestCase {
-
-    protected $serwersms;
-    
-    protected function setUp() {
-        $this->serwersms = new SerwerSMS("demo","demo");
-    }
-
-    public function testIndex() {
-        $r = $this->serwersms->stats->index();
-        $this->assertObjectHasAttribute('items', $r);
+class StatsTest extends AbstractTest
+{
+    public function testIndex()
+    {
+        $r = $this->serverSms->stats->index()->getResult();
+        
+        $this->assertObjectHasProperty('items', $r);
     }
 }

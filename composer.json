@@ -1,33 +1,39 @@
 {
-    "name": "serwer/sms",
+    "name": "betterapp/laravel-server-sms",
     "description": "This is a Laravel package for communication with the API v2 SerwerSMS.pl",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "authors": [
+        {
+            "name": "Daniel Częstki",
+            "email": "biuro@betterapp.net"
+        },
         {
             "name": "SerwerSMS.pl",
             "email": "biuro@serwersms.pl"
         }
     ],
-	"keywords" : [
-        "serwersms","api sms","sms"
+    "keywords" : [
+        "serwer sms","api sms","sms"
     ],
-	"homepage": "https://serwersms.pl/",
+    "homepage": "https://serwersms.pl/",
     "license" : [
         "MIT"
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=8.0",
+        "laravel/framework": "^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "betterapp\\LaravelServerSms\\ServerSmsServiceProvider"
+            ]
+        }
     },
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
-        "psr-0": {
-            "Serwer\\Sms\\": "src/"
+        "psr-4": {
+            "betterapp\\LaravelServerSms\\Tests\\": "tests/",
+            "betterapp\\LaravelServerSms\\": "LaravelServerSms/"
         }
-    },
-    "branch-alias" : {
-            "dev-master" : "1.0"
-        }
-    
+    }
 }

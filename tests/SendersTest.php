@@ -1,23 +1,21 @@
 <?php
 
-namespace SerwerSMS;
+namespace betterapp\LaravelServerSms\Tests;
 
-class SendersTest extends \PHPUnit_Framework_TestCase {
-
-    protected $serwersms;
-    
-    protected function setUp() {
-        $this->serwersms = new SerwerSMS("demo","demo");
-    }
-
-    public function testAdd() {
-        $r = $this->serwersms->senders->add('NewSender');
-        $this->assertObjectHasAttribute('success', $r);
+class SendersTest extends AbstractTest
+{
+    public function testAdd()
+    {
+        $r = $this->serverSms->senders->add('NewSender')->getResult();
+        
+        $this->assertObjectHasProperty('success', $r);
         $this->assertTrue($r->success);
     }
-
-    public function testIndex() {
-        $r = $this->serwersms->senders->index(array('personalized' => true));
-        $this->assertObjectHasAttribute('items', $r);
+    
+    public function testIndex()
+    {
+        $r = $this->serverSms->senders->index(array('personalized' => true))->getResult();
+        
+        $this->assertObjectHasProperty('items', $r);
     }
 }

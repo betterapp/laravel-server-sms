@@ -1,25 +1,17 @@
-# SerwerSMS - Laravel5
+# SerwerSMS - Laravel 10
 
 Klient PHP do komunikacji zdalnej z API v2 SerwerSMS.pl
 
 Zalecane jest, aby komunikacja przez HTTPS API odbywała się z loginów utworzonych specjalnie do połączenia przez API. Konto użytkownika API można utworzyć w Panelu Klienta → Ustawienia interfejsów → HTTPS XML API → Użytkownicy.
 ## Instalacja
-Instalacja odbywa się poprzez composer i dodanie do pliku composer.json poniższego kodu:
+Instalacja odbywa się poprzez composer:
 ```php
-    {
-        "require": {
-            "serwer/sms": "dev-master"
-        }
-        ...
-        "repositories" : [{
-            "type" : "vcs",
-            "url" : "https://github.com/SerwerSMSpl/serwersms-laravel5.git"
-         }],
-    }
+    composer require betterapp/server-sms
 ```
-## Wysyłka SMS
+## Konfiguracja
 
 app/config/app.php:
+
 ```php
     return [
 	    ...
@@ -27,25 +19,37 @@ app/config/app.php:
 	    'providers' => [
 	        ...
 	        ...
-	        Serwer\Sms\SmsServiceProvider::class,
+	        \betterapp\LaravelServerSms\ServerSmsServiceProvider::class,
 	    ],
-	    'sms'=>[
-			'username' => 'username',
-			'password' => 'password',
-			'api_url'  => 'https://api2.serwersms.pl/',
-			'format'   => 'json'
-		]
+	    ...
+	    ....
     ]
 ```
+
+app/config/server-sms.php:
+```php
+<?php
+
+    return [
+        'username' => 'username',
+        'password' => 'password',
+        'api_url'  => 'https://api2.serwersms.pl/',
+        'format'   => 'json',
+        'sender'   => '',
+    ]
+```
+
+## Wysyłka SMS
+
 Controller.php
 ```php
 
 	try{
 	
-	    $serwersms = new \SMS;
+	    $serverSms = new \SerwerSMS;
 	
 	    // SMS FULL
-	    $result = $serwersms->messages->sendSms(
+	    $result = $serverSms->messages->sendSms(
 	            array(
 	                    '+48500600700',
 	                    '+48600700800'
@@ -59,7 +63,7 @@ Controller.php
 	    );
 	
 	    // SMS ECO
-	    $result = $serwersms->messages->sendSms(
+	    $result = $serverSms->messages->sendSms(
 	            array(
 	                    '+48500600700',
 	                    '+48600700800'
@@ -73,7 +77,7 @@ Controller.php
 	    );
 	
 	    // VOICE from text
-	    $result = $serwersms->messages->sendVoice(
+	    $result = $serverSms->messages->sendVoice(
 	            array(
 	                    '+48500600700',
 	                    '+48600700800'
@@ -86,8 +90,8 @@ Controller.php
 	    );
 	
 	    // MMS
-	    $list = $serwersms->files->index('mms');
-	    $result = $serwersms->messages->sendMms(
+	    $list = $serverSms->files->index('mms');
+	    $result = $serverSms->messages->sendMms(
 	            array(
 	                    '+48500600700',
 	                    '+48600700800'
@@ -121,7 +125,7 @@ Wysyłka spersonalizowanych SMS
 ```php
 	try{
 	
-	    $serwersms = new \SMS;
+	    $serverSms = new \SerwerSMS;
 	
 	    $messages[] = array(
 			'phone' => '500600700',
@@ -132,7 +136,7 @@ Wysyłka spersonalizowanych SMS
 			'text' => 'Second message'
 	    );
 	
-	    $result = $serwersms->messages->sendPersonalized(
+	    $result = $serverSms->messages->sendPersonalized(
 			$messages,
 			'INFORMACJA',
 			array(
@@ -162,10 +166,10 @@ Pobieranie raportów doręczeń
 ```php
 	try{
 	
-    	    $serwersms = new \SMS;
+    	    $serverSms = new \SerwerSMS;
     	
     	    // Get messages reports
-    	    $result = $serwersms->messages->reports(array('id' => array('aca3944055')));
+    	    $result = $serverSms->messages->reports(array('id' => array('aca3944055')));
     	
     	    foreach($result->items as $sms){
     	  
@@ -188,10 +192,10 @@ Pobieranie raportów doręczeń
 Pobieranie wiadomości przychodzących
 ```php
 	try{
-    	    $serwersms = new \SMS;
+    	    $serverSms = new \SerwerSMS;
     	
     	    // Get recived messages
-    	    $result = $serwersms->messages->recived('ndi');
+    	    $result = $serverSms->messages->recived('ndi');
     	
     	    foreach($result->items as $sms){
     	  
@@ -212,7 +216,7 @@ Pobieranie wiadomości przychodzących
 
 php >=7.*
 
-Laravel = 5.*
+Laravel = 10.*
 
 ## Dokumentacja
 http://dev.serwersms.pl

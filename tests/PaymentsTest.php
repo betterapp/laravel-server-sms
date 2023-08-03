@@ -1,24 +1,22 @@
 <?php
 
-namespace SerwerSMS;
+namespace betterapp\LaravelServerSms\Tests;
 
-class PaymentsTest extends \PHPUnit_Framework_TestCase {
-
-    protected $serwersms;
-    
-    protected function setUp(){
-        $this->serwersms = new SerwerSMS("demo","demo");
-    }
-
-    public function testIndex() {
-        $r = $this->serwersms->payments->index();
-        $this->assertObjectHasAttribute('items', $r);
+class PaymentsTest extends AbstractTest
+{
+    public function testIndex()
+    {
+        $r = $this->serverSms->payments->index()->getResult();
+        
+        $this->assertObjectHasProperty('items', $r);
     }
     
-    public function testView() {
-        $list = $this->serwersms->payments->index();
-        $r = $this->serwersms->payments->view($list->items[0]->id);
-        $this->assertObjectHasAttribute('id', $r);
+    public function testView()
+    {
+        $list = $this->serverSms->payments->index()->getResult();
+        $r = $this->serverSms->payments->view($list->items[0]->id)->getResult();
+        
+        $this->assertObjectHasProperty('id', $r);
     }
-
+    
 }
